@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\isr.obj" 
+TO ".\Objects\isr" 
+PRINT(".\Listings\isr.m51") RAMSIZE(256) 

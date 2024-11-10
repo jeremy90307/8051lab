@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\isr_hard.obj" 
+TO ".\Objects\isr_hard" 
+PRINT(".\Listings\isr_hard.m51") RAMSIZE(256) 

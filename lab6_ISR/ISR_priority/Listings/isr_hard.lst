@@ -1,0 +1,99 @@
+A51 MACRO ASSEMBLER  ISR_HARD                                                             11/05/2024 15:42:58 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\isr_hard.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE isr_hard.A51 SET(SMALL) DEBUG PRINT(.\Listings\isr_hard.lst) OBJECT(.\O
+                      bjects\isr_hard.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                             ORG 00H
+0000 802E              2                             SJMP MAIN
+0003                   3                             ORG 03H
+0003 8040              4                             SJMP INT0_ISR
+0013                   5                             ORG 013H
+0013 8048              6                             SJMP INT1_ISR
+0030                   7                             ORG 030H
+0030                   8     MAIN:
+0030 75A885            9                             MOV IE,#10000101B       ; enable EA and EX0 and EX1
+0033 758130           10                             MOV SP, #30H            ; stack start from #30H
+0036 C288             11                             CLR IT0                 ; low level-triggered
+0038 C28A             12                             CLR IT1                 ; low level-triggered
+003A D2BA             13                             SETB IP.2
+003C 7400             14                             MOV A, #00000000B
+003E                  15     LOOP:
+003E F5A0             16                             MOV P2,A                        ; LED output
+0040 1175             17                             CALL DELAY
+0042 F4               18                             CPL A                           ; reverse A
+0043 80F9             19                             SJMP LOOP
+0045                  20     INT0_ISR:
+0045 C0D0             21                             PUSH PSW                        ; push PSW into stack
+0047 C0E0             22                             PUSH ACC                        ; push ACC into stack
+0049 C2D4             23                             CLR RS1
+004B D2D3             24                             SETB RS0                        ; switch to RB1
+004D 74F0             25                             MOV A, #11110000B
+004F 7819             26                             MOV R0,#25                      ; loop counter -> 3
+0051                  27     ROTATE_1:
+0051 F5A0             28                             MOV P2,A
+0053 1175             29                             CALL DELAY
+0055 23               30                             RL A
+0056 D8F9             31                             DJNZ R0,ROTATE_1
+0058 D0E0             32                             POP ACC
+005A D0D0             33                             POP PSW
+005C 32               34                             RETI                            ; return from ISR
+005D                  35     INT1_ISR:
+005D C0D0             36                             PUSH PSW
+005F C0E0             37                             PUSH ACC
+0061 C2D3             38                             CLR RS0
+0063 D2D4             39                             SETB RS1                        ; switch to RB2
+0065 74FE             40                             MOV A, #11111110B
+0067 7811             41                             MOV R0, #17                     ; loop counter -> 2
+0069                  42     ROTATE_2:
+0069 F5A0             43                             MOV P2,A
+006B 1175             44                             CALL DELAY
+006D 23               45                             RL A
+006E D8F9             46                             DJNZ R0,ROTATE_2
+0070 D0E0             47                             POP ACC
+0072 D0D0             48                             POP PSW
+0074 32               49                             RETI                            ; return from ISR       
+0075                  50     DELAY:
+0075 7FC8             51                             MOV R7, #200
+0077                  52     DE_500_us:
+0077 7EFA             53                             MOV R6, #250
+0079 DEFE             54                             DJNZ R6, $
+007B DFFA             55                             DJNZ R7, DE_500_us
+007D 22               56                             RET
+                      57                             END
+A51 MACRO ASSEMBLER  ISR_HARD                                                             11/05/2024 15:42:58 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+DELAY. . . . . . .  C ADDR   0075H   A   
+DE_500_US. . . . .  C ADDR   0077H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+INT0_ISR . . . . .  C ADDR   0045H   A   
+INT1_ISR . . . . .  C ADDR   005DH   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+LOOP . . . . . . .  C ADDR   003EH   A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+ROTATE_1 . . . . .  C ADDR   0051H   A   
+ROTATE_2 . . . . .  C ADDR   0069H   A   
+RS0. . . . . . . .  B ADDR   00D0H.3 A   
+RS1. . . . . . . .  B ADDR   00D0H.4 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

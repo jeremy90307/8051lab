@@ -1,0 +1,74 @@
+A51 MACRO ASSEMBLER  ISR                                                                  11/04/2024 18:50:51 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\isr.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE isr.A51 SET(SMALL) DEBUG PRINT(.\Listings\isr.lst) OBJECT(.\Objects\isr
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                             ORG 00H
+0000 802E              2                             SJMP MAIN
+0003                   3                             ORG 03H
+0003 803C              4                             SJMP INT0_ISR
+0030                   5                             ORG 030H
+0030                   6     MAIN:
+0030 75A881            7                             MOV IE,#10000001B       ; enable EA and EX0
+0033 758130            8                             MOV SP, #30H            ; stack start from #30H
+0036 D288              9                             SETB IT0                        ; falling edge-triggered
+0038 7400             10                             MOV A, #00000000B       
+003A                  11     LOOP:
+003A F5A0             12                             MOV P2,A                        ; LED output
+003C 1157             13                             CALL DELAY
+003E F4               14                             CPL A
+003F 80F9             15                             SJMP LOOP
+0041                  16     INT0_ISR:
+0041 C0D0             17                             PUSH PSW                        ; push PSW into stack
+0043 C0E0             18                             PUSH ACC                        ; push ACC into stack
+0045 D2D3             19                             SETB RS0                        ; switch to RB1
+0047 74FE             20                             MOV A, #11111110B
+0049 7818             21                             MOV R0,#24                      ; loop counter -> 24
+004B                  22     ROTATE_L:
+004B F5A0             23                             MOV P2,A
+004D 1157             24                             CALL DELAY
+004F 23               25                             RL A
+0050 D8F9             26                             DJNZ R0,ROTATE_L
+0052 D0E0             27                             POP ACC
+0054 D0D0             28                             POP PSW
+0056 32               29                             RETI                            ; return from ISR
+0057                  30     DELAY:
+0057 7FFA             31                             MOV R7, #250
+0059                  32     DE_500_us:
+0059 7EFA             33                             MOV R6, #250
+005B DEFE             34                             DJNZ R6, $
+005D DFFA             35                             DJNZ R7, DE_500_us
+005F 22               36                             RET
+                      37                             END
+A51 MACRO ASSEMBLER  ISR                                                                  11/04/2024 18:50:51 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+DELAY. . . . . . .  C ADDR   0057H   A   
+DE_500_US. . . . .  C ADDR   0059H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+INT0_ISR . . . . .  C ADDR   0041H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+LOOP . . . . . . .  C ADDR   003AH   A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+ROTATE_L . . . . .  C ADDR   004BH   A   
+RS0. . . . . . . .  B ADDR   00D0H.3 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
