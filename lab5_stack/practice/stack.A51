@@ -1,0 +1,32 @@
+		ORG 0
+		JMP LOOP
+		ORG 0030H
+LOOP:
+		MOV SP, #32H
+		MOV A, #0xFE
+		MOV P2, A
+		SETB P1.0
+		MOV R0, #8D          ; 8 pin LED
+		JNB P1.0, MARQUEE    ;jump into marquee when p1.0 is low
+		JMP LOOP
+MARQUEE: 
+		PUSH 00h
+		MOV R0, #250D
+		CALL DELAY1
+		POP 0
+		
+		RL A
+		MOV P2, A
+		DJNZ R0, MARQUEE
+		JMP LOOP
+DELAY1:
+		PUSH 0
+		MOV R0, #250D
+		CALL DELAY2
+		POP 0
+		DJNZ R0, DELAY1
+		RET
+DELAY2:
+		DJNZ R0, DELAY2
+		RET
+		END

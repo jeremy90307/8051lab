@@ -1,0 +1,63 @@
+A51 MACRO ASSEMBLER  STACK                                                                10/26/2024 18:53:59 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\stack.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE stack.A51 SET(SMALL) DEBUG PRINT(.\Listings\stack.lst) OBJECT(.\Objects
+                      \stack.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG 0
+0000 802E              2                     JMP LOOP
+0030                   3                     ORG 0030H
+0030                   4     LOOP:
+0030 758132            5                     MOV SP, #32H
+0033 74FE              6                     MOV A, #0xFE
+0035 F5A0              7                     MOV P2, A
+0037 D290              8                     SETB P1.0
+0039 7808              9                     MOV R0, #8D          ; 8 pin LED
+003B 309002           10                     JNB P1.0, MARQUEE    ;jump into marquee when p1.0 is low
+003E 80F0             11                     JMP LOOP
+0040                  12     MARQUEE: 
+0040 C000             13                     PUSH 00h
+0042 78FA             14                     MOV R0, #250D
+0044 114F             15                     CALL DELAY1
+0046 D000             16                     POP 0
+                      17                     
+0048 23               18                     RL A
+0049 F5A0             19                     MOV P2, A
+004B D8F3             20                     DJNZ R0, MARQUEE
+004D 80E1             21                     JMP LOOP
+004F                  22     DELAY1:
+004F C000             23                     PUSH 0
+0051 78FA             24                     MOV R0, #250D
+0053 115A             25                     CALL DELAY2
+0055 D000             26                     POP 0
+0057 D8F6             27                     DJNZ R0, DELAY1
+0059 22               28                     RET
+005A                  29     DELAY2:
+005A D8FE             30                     DJNZ R0, DELAY2
+005C 22               31                     RET
+                      32                     END
+A51 MACRO ASSEMBLER  STACK                                                                10/26/2024 18:53:59 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY1 . . . . . .  C ADDR   004FH   A   
+DELAY2 . . . . . .  C ADDR   005AH   A   
+LOOP . . . . . . .  C ADDR   0030H   A   
+MARQUEE. . . . . .  C ADDR   0040H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

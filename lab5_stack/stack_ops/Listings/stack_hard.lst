@@ -1,0 +1,75 @@
+A51 MACRO ASSEMBLER  STACK_HARD                                                           10/29/2024 16:10:53 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\stack_hard.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE stack_hard.A51 SET(SMALL) DEBUG PRINT(.\Listings\stack_hard.lst) OBJECT
+                      (.\Objects\stack_hard.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                             ORG 0000H
+0000 802E              2                             JMP INIT
+0030                   3                             ORG 0030H
+0030                   4     INIT:
+0030 758132            5                             MOV SP, #32H
+0033 7A01              6                             MOV R2, #1
+0035 78FC              7                             MOV R0, #0xFC
+0037                   8     LOOP:
+0037 88A0              9                             MOV P2, R0
+0039 D290             10                             SETB P1.0
+003B D291             11                             SETB P1.1
+003D 30900A           12                             JNB P1.0, PUSH_STACK
+0040 309111           13                             JNB P1.1, POP_STACK
+0043 1163             14                             CALL DEBOUNCE
+0045 E8               15                             MOV A, R0
+0046 23               16                             RL A
+0047 F8               17                             MOV R0, A
+0048 80ED             18                             JMP LOOP
+004A                  19     PUSH_STACK:
+004A 1163             20                             CALL DEBOUNCE
+004C 1163             21                             CALL DEBOUNCE
+004E 1163             22                             CALL DEBOUNCE
+0050 C000             23                             PUSH 00H
+0052 80E3             24                             JMP LOOP
+0054                  25     POP_STACK:
+0054 1163             26                             CALL DEBOUNCE
+0056 1163             27                             CALL DEBOUNCE
+0058 D000             28                             POP 00H
+005A 8000             29                             JMP DISPLAY
+005C                  30     DISPLAY:
+005C 88A0             31                             MOV P2, R0
+005E 3091F3           32                             JNB P1.1, POP_STACK
+0061 80F9             33                             JMP DISPLAY
+0063                  34     DEBOUNCE:
+0063 7CFA             35                             MOV R4, #250
+0065                  36     DE_500_us:
+0065 7BFA             37                             MOV R3, #250
+0067 DBFE             38                             DJNZ R3, $
+0069 DCFA             39                             DJNZ R4, DE_500_us
+006B 22               40                             RET
+                      41                             END
+A51 MACRO ASSEMBLER  STACK_HARD                                                           10/29/2024 16:10:53 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DEBOUNCE . . . . .  C ADDR   0063H   A   
+DE_500_US. . . . .  C ADDR   0065H   A   
+DISPLAY. . . . . .  C ADDR   005CH   A   
+INIT . . . . . . .  C ADDR   0030H   A   
+LOOP . . . . . . .  C ADDR   0037H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+POP_STACK. . . . .  C ADDR   0054H   A   
+PUSH_STACK . . . .  C ADDR   004AH   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
