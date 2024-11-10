@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\7display.obj" 
+TO ".\Objects\7display" 
+PRINT(".\Listings\7display.m51") RAMSIZE(256) 

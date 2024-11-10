@@ -1,0 +1,52 @@
+A51 MACRO ASSEMBLER  LED_LAB2                                                             10/08/2024 19:23:00 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\LED_lab2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE LED_lab2.A51 SET(SMALL) DEBUG PRINT(.\Listings\LED_lab2.lst) OBJECT(.\O
+                      bjects\LED_lab2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 00H
+0000 74FE              2             MOV A, #11111110B 
+                       3     
+0002                   4     LOOP: 
+0002 F590              5             MOV P1, A
+0004 1109              6             CALL DELAY
+0006 23                7             RL A
+0007 80F9              8             SJMP LOOP
+                       9     
+0009                  10     DELAY:
+0009 7804             11             MOV R0, #4
+                      12     
+000B                  13     LOOP1:
+000B 79FA             14             MOV R1, #250
+                      15     
+000D                  16     LOOP2:
+000D 7AFA             17             MOV R2, #250
+000F DAFE             18             DJNZ R2, $
+0011 D9FA             19             DJNZ R1, LOOP2
+0013 D8F6             20             DJNZ R0, LOOP1
+0015 22               21             RET
+                      22             
+                      23             END
+A51 MACRO ASSEMBLER  LED_LAB2                                                             10/08/2024 19:23:00 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0009H   A   
+LOOP . . . . . . .  C ADDR   0002H   A   
+LOOP1. . . . . . .  C ADDR   000BH   A   
+LOOP2. . . . . . .  C ADDR   000DH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

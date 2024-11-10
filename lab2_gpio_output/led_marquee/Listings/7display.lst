@@ -1,0 +1,62 @@
+A51 MACRO ASSEMBLER  7DISPLAY                                                             10/08/2024 19:25:23 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\7display.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE 7display.A51 SET(SMALL) DEBUG PRINT(.\Listings\7display.lst) OBJECT(.\O
+                      bjects\7display.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG 00H
+0000 90001E            2                     MOV DPTR, #TABLE
+                       3     
+0003                   4     START:
+0003 7804              5                     MOV R0, #4
+0005 7900              6                     MOV R1, #0
+0007 7AFE              7                     MOV R2, #0FEH
+                       8             
+0009                   9     LOOP:   
+0009 8AA0             10                     MOV P2, R2
+000B E9               11                     MOV A, R1
+000C 93               12                     MOVC A, @A+DPTR
+000D F590             13                     MOV P1, A
+000F 1119             14                     CALL DELAY
+0011 09               15                     INC R1
+0012 EA               16                     MOV A, R2
+0013 23               17                     RL A
+0014 FA               18                     MOV R2, A
+0015 D8F2             19                     DJNZ R0, LOOP
+0017 80EA             20                     SJMP START 
+                      21     
+0019                  22     DELAY:
+0019 7BFA             23                     MOV R3, #250
+001B DBFE             24                     DJNZ R3, $
+001D 22               25                     RET
+                      26             
+001E                  27     TABLE:
+001E C0               28                     DB 0C0H 
+001F F9               29                     DB 0F9H
+0020 A4               30                     DB 0A4H 
+0021 B0               31                     DB 0B0H
+                      32                     END
+A51 MACRO ASSEMBLER  7DISPLAY                                                             10/08/2024 19:25:23 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0019H   A   
+LOOP . . . . . . .  C ADDR   0009H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+START. . . . . . .  C ADDR   0003H   A   
+TABLE. . . . . . .  C ADDR   001EH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
