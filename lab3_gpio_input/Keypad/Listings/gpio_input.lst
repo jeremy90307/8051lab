@@ -1,0 +1,84 @@
+A51 MACRO ASSEMBLER  GPIO_INPUT                                                           10/11/2024 17:02:00 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\gpio_input.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE gpio_input.A51 SET(SMALL) DEBUG PRINT(.\Listings\gpio_input.lst) OBJECT
+                      (.\Objects\gpio_input.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                             ORG 0
+0000 900033            2                             MOV DPTR, #TABLE
+0003                   3     START:  
+0003 7800              4                             MOV R0, #0
+0005 7904              5                             MOV R1, #4
+0007 7AF7              6                             MOV R2, #11110111B
+0009                   7     SCAN:   
+0009 EA                8                             MOV A, R2
+000A F5A0              9                             MOV P2, A
+000C 30A713           10                             JNB P2.7, KEYIN
+000F 08               11                             INC R0
+0010 30A60F           12                             JNB P2.6, KEYIN
+0013 08               13                             INC R0
+0014 30A50B           14                             JNB P2.5, KEYIN
+0017 08               15                             INC R0
+0018 30A407           16                             JNB P2.4, KEYIN
+001B 08               17                             INC R0
+001C 03               18                             RR A
+001D FA               19                             MOV R2, A
+001E D9E9             20                             DJNZ R1, SCAN
+0020 80E1             21                             SJMP START
+0022                  22     KEYIN:
+0022 112A             23                             CALL DEBOUNCE
+0024 E8               24                             MOV A, R0
+0025 93               25                             MOVC A, @A+DPTR
+0026 F590             26                             MOV P1, A
+0028 80D9             27                             SJMP START
+002A                  28     DEBOUNCE:
+002A 7C32             29                             MOV R4, #50
+002C                  30     DE_500_us:
+002C 7BFA             31                             MOV R3, #250
+002E DBFE             32                             DJNZ R3, $
+0030 DCFA             33                             DJNZ R4, DE_500_us
+0032 22               34                             RET
+0033                  35     TABLE:
+0033 9F               36                             DB 10011111B    ; display 1
+0034 25               37                             DB 00100101B    ; display 2
+0035 0D               38                             DB 00001101B    ; display 3
+0036 11               39                             DB 00010001B    ; display A
+0037 99               40                             DB 10011001B    ; display 4
+0038 49               41                             DB 01001001B    ; display 5
+0039 41               42                             DB 01000001B    ; display 6
+003A C1               43                             DB 11000001B    ; display b
+003B 1B               44                             DB 00011011B    ; display 7
+003C 01               45                             DB 00000001B    ; display 8
+003D 09               46                             DB 00001001B    ; display 9
+003E E5               47                             DB 11100101B    ; display c
+003F 71               48                             DB 01110001B    ; display F
+0040 03               49                             DB 00000011B    ; display 0
+0041 61               50                             DB 01100001B    ; display E
+0042 85               51                             DB 10000101B    ; display d
+                      52                             END
+A51 MACRO ASSEMBLER  GPIO_INPUT                                                           10/11/2024 17:02:00 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DEBOUNCE . . . . .  C ADDR   002AH   A   
+DE_500_US. . . . .  C ADDR   002CH   A   
+KEYIN. . . . . . .  C ADDR   0022H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SCAN . . . . . . .  C ADDR   0009H   A   
+START. . . . . . .  C ADDR   0003H   A   
+TABLE. . . . . . .  C ADDR   0033H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
