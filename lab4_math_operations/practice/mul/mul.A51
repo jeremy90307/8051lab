@@ -1,0 +1,7 @@
+ORG 0
+MOV A, #32H
+MOV B, #06H
+SUBB A, B
+MOV B, #07H
+MUL AB
+END

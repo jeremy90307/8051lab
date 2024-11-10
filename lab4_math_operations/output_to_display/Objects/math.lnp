@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\math.obj" 
+TO ".\Objects\math" 
+PRINT(".\Listings\math.m51") RAMSIZE(256) 

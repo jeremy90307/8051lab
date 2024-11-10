@@ -1,0 +1,152 @@
+A51 MACRO ASSEMBLER  MATH                                                                 10/22/2024 18:09:17 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\math.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE math.A51 SET(SMALL) DEBUG PRINT(.\Listings\math.lst) OBJECT(.\Objects\m
+                      ath.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                             ORG 0
+0000 900095            2                             MOV DPTR, #TABLE
+0003 7D02              3                             MOV R5, #2               
+0005                   4     START:  
+0005 7801              5                             MOV R0, #1
+0007 7904              6                             MOV R1, #4
+0009 7AF7              7                             MOV R2, #11110111B
+000B                   8     SCAN:
+000B EA                9                             MOV A, R2
+000C F5A0             10                             MOV P2, A
+000E 30A712           11                             JNB P2.7, KEYIN
+0011 08               12                             INC R0
+0012 30A60E           13                             JNB P2.6, KEYIN
+0015 08               14                             INC R0
+0016 30A50A           15                             JNB P2.5, KEYIN
+0019 08               16                             INC R0
+001A 30A416           17                             JNB P2.4, math_op
+001D 03               18                             RR A                                                               
+                                             
+001E FA               19                             MOV R2, A
+001F D9EA             20                             DJNZ R1, SCAN
+0021 80E2             21                             SJMP START
+0023                  22     KEYIN:
+0023 118C             23                             CALL DEBOUNCE
+0025 E8               24                             MOV A, R0
+0026 93               25                             MOVC A, @A+DPTR
+0027 F590             26                             MOV P1, A
+0029 DD04             27                             DJNZ R5, store
+002B E8               28                             MOV A, R0
+002C FF               29                             MOV R7, A
+002D 80D6             30                             SJMP START
+                      31                             
+002F                  32     store:
+002F E8               33                             MOV A, R0
+0030 FE               34                             MOV R6, A                        
+0031 80D2             35                             SJMP START
+0033                  36     math_op:        
+                      37                             
+0033 30A309           38                             JNB P2.3, AD    
+0036 30A211           39                             JNB P2.2, SU
+0039 30A119           40                             JNB P2.1, MU
+003C 30A020           41                             JNB P2.0, DI            
+003F                  42     AD:
+003F 8EF0             43                             MOV B, R6
+0041 EF               44                             MOV A, R7
+0042 35F0             45                             ADDC A, B
+0044 75F00A           46                             MOV B, #0AH
+0047 84               47                             DIV AB
+0048 801B             48                             SJMP lib
+004A                  49     SU:
+004A 8EF0             50                             MOV B, R6
+004C EF               51                             MOV A, R7
+004D 95F0             52                             SUBB A, B
+004F 75F00A           53                             MOV B, #0AH
+0052 84               54                             DIV AB
+0053 8010             55                             SJMP lib
+0055                  56     MU:
+A51 MACRO ASSEMBLER  MATH                                                                 10/22/2024 18:09:17 PAGE     2
+
+0055 8EF0             57                             MOV B, R6
+0057 EF               58                             MOV A, R7
+0058 A4               59                             MUL AB
+0059 75F00A           60                             MOV B, #0AH
+005C 84               61                             DIV AB
+005D 8006             62                             SJMP lib
+005F                  63     DI:
+005F 8EF0             64                             MOV B, R6
+0061 EF               65                             MOV A, R7
+0062 84               66                             DIV AB
+0063 8000             67                             SJMP lib
+                      68                             
+0065                  69     lib:
+0065 93               70                             MOVC A, @A+DPTR
+0066 F590             71                             MOV P1, A
+0068 118C             72                             CALL DEBOUNCE
+006A 118C             73                             CALL DEBOUNCE
+006C 118C             74                             CALL DEBOUNCE
+006E 118C             75                             CALL DEBOUNCE
+0070 118C             76                             CALL DEBOUNCE
+0072 118C             77                             CALL DEBOUNCE
+0074 118C             78                             CALL DEBOUNCE
+0076 118C             79                             CALL DEBOUNCE
+0078 118C             80                             CALL DEBOUNCE
+007A 118C             81                             CALL DEBOUNCE
+007C 118C             82                             CALL DEBOUNCE
+007E E5F0             83                             MOV A, B
+0080 93               84                             MOVC A, @A+DPTR
+0081 F590             85                             MOV P1, A
+0083 78FA             86                             MOV  R0, #250
+0085 D8FE             87                             DJNZ R0, $
+0087 7D02             88                             MOV R5, #2
+0089 020005           89                             LJMP START
+                      90                             
+008C                  91     DEBOUNCE:
+008C 7C32             92                             MOV R4, #50
+008E                  93     DE_500_us:
+008E 7BFA             94                             MOV R3, #250
+0090 DBFE             95                             DJNZ R3, $
+0092 DCFA             96                             DJNZ R4, DE_500_us
+0094 22               97                             RET
+0095                  98     TABLE:
+0095 03               99                             DB 00000011B    ; display 0
+0096 9F              100                             DB 10011111B    ; display 1
+0097 25              101                             DB 00100101B    ; display 2
+0098 0D              102                             DB 00001101B    ; display 3
+0099 99              103                             DB 10011001B    ; display 4
+009A 49              104                             DB 01001001B    ; display 5
+009B 41              105                             DB 01000001B    ; display 6
+009C 1B              106                             DB 00011011B    ; display 7
+009D 01              107                             DB 00000001B    ; display 8
+009E 09              108                             DB 00001001B    ; display 9
+                     109                             END
+A51 MACRO ASSEMBLER  MATH                                                                 10/22/2024 18:09:17 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+AD . . . . . . . .  C ADDR   003FH   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+DEBOUNCE . . . . .  C ADDR   008CH   A   
+DE_500_US. . . . .  C ADDR   008EH   A   
+DI . . . . . . . .  C ADDR   005FH   A   
+KEYIN. . . . . . .  C ADDR   0023H   A   
+LIB. . . . . . . .  C ADDR   0065H   A   
+MATH_OP. . . . . .  C ADDR   0033H   A   
+MU . . . . . . . .  C ADDR   0055H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SCAN . . . . . . .  C ADDR   000BH   A   
+START. . . . . . .  C ADDR   0005H   A   
+STORE. . . . . . .  C ADDR   002FH   A   
+SU . . . . . . . .  C ADDR   004AH   A   
+TABLE. . . . . . .  C ADDR   0095H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

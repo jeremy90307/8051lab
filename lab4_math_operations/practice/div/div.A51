@@ -1,0 +1,7 @@
+	ORG 0
+	MOV A, #64H
+	MOV B, #0DH
+	ADD A, B
+	MOV B, #06H
+	DIV AB
+	END

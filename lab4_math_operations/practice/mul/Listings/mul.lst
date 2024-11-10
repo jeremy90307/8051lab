@@ -1,0 +1,32 @@
+A51 MACRO ASSEMBLER  MUL                                                                  10/22/2024 13:27:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\mul.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE mul.A51 SET(SMALL) DEBUG PRINT(.\Listings\mul.lst) OBJECT(.\Objects\mul
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0
+0000 7432              2     MOV A, #32H
+0002 75F006            3     MOV B, #06H
+0005 95F0              4     SUBB A, B
+0007 75F007            5     MOV B, #07H
+000A A4                6     MUL AB
+                       7     END
+A51 MACRO ASSEMBLER  MUL                                                                  10/22/2024 13:27:27 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
